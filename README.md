@@ -1,5 +1,5 @@
 # DSLR Differential Photometry Analysis
-Identifying exoplanet transits and variable stars by performing differential photometry on DSLR images.
+Determining the radius of transiting exoplanets and analyzing variable stars by performing differential photometry on DSLR images.
 
 ## Project Overview
 Photometry is the method used to study the brightness (flux) of stars over time. When examining stellar light curves some stars show periodic changes in their flux. These can be caused by transiting exoplanets, eclipsing binary stars, or pulsating variable stars. Approximately 75% of all exoplanets were discovered using transit photometry. NASA uses specialized space telescopes such as Kepler and TESS to capture stellar light curves and conduct photometry. 
@@ -28,9 +28,9 @@ The images were processed using [ASTAP](https://www.hnsky.org/astap.htm). The ra
 Once the files were loaded into the notebook, a zoomed in image with an aperture and annulus around the target and comparison star was created. This was done to ensure the star coordinates were correct and the size of the apertures and annuli did not overlap with any nearby stars.
 
 <p align="center">
-  <img src="graphs/HAT-P-22-Zoomed_Image.png" height="374">
+  <img src="graphs/HAT-P-22_HD 233728-Zoomed_Image.png" height="374">
   <br>
-  <sub>HAT-P-22 is pictured in the center with the comparison star HD 233733 in the lower right.</sub>
+  <sub>HAT-P-22 is pictured in the center with the comparison star HD 233728 above it.</sub>
 </p>
 
 ## Photometry Method
@@ -81,24 +81,60 @@ $$
 $$
 
 
-## Results
+## Graphing Light Curves
 Finally the light curves for the target star, the comparison star, and the relative flux were all plotted.
 
 <p align="center">
-  <img src="graphs/HAT-P-22-Light_Curves.png" height="374">
+  <img src="graphs/HAT-P-22_HD 233728-Light_Curves.png" height="374">
   <br>
-  <sub>The light curves of HAT-P-22 and the comparison star HD 233733.</sub>
+  <sub>The light curves of HAT-P-22 and the comparison star HD 233728.</sub>
 </p>
 
 
 <p align="center">
-  <img src="graphs/HAT-P-22-Combined-Light_Curves.png" height="374">
+  <img src="graphs/HAT-P-22_HD 233728-Combined-Light_Curves.png" height="374">
   <br>
   <sub>All 3 light curves plotted together.</sub>
 </p>
 
-The light curve of HD 233733 shows an upward trend in flux followed by a dimming near the end of observation. This change in flux is used to calcualte the relative flux.
+The light curve of HD 233728 shows an upward trend in flux followed by a dimming near the end of observation. This change in flux is used to calcualte the relative flux.
 
+## Calculating Exoplanet Size
+By measuring the transit depth and knowing the stellar radius, it is possible to determine the radius of the exoplanet using the equation
+
+$$
+\frac {\Delta L}{L} = \left ( \frac {R_P}{R_{\*}} \right) ^2 \implies R_P = R_{\*}\sqrt{\frac{\Delta L}{L}} = R_\{*} \sqrt{\text{Transit Depth}}
+$$
+
+Where $\frac{\Delta L}{L}$ is the change in flux, $R_P$ is the exoplanet radius, and $R_*$ is the star's radius.
+
+The uncertainty in this calculation is calculated by
+
+$$
+\text{Uncertainty} = \sqrt{\left( \frac{\sigma_\text{out}}{\sqrt{N_\text{out}}} \right)^2 +\left(\frac{\sigma_\text{in}}{\sqrt{N_\text{in}}} \right)^2}
+$$
+
+Applying these calculations to HAT-P-22 b gives
+
+<div align="center" style="border: 2px solid #4CAF50; border-radius: 10px; padding: 20px; background-color: #f9f9f9;">
+  <table style="border: none; width: 60%;">
+    <tr>
+      <td style="text-align: right; font-weight: bold; padding-right: 20px;">Transit Depth:</td>
+      <td style="text-align: left;">1.39% &plusmn; 0.01%</td>
+    </tr>
+    <tr>
+      <td style="text-align: right; font-weight: bold; padding-right: 20px;">Measured Radius:</td>
+      <td style="text-align: left;">1.176 &plusmn; 0.005 $R_{Jup}$</td>
+    </tr>
+    <tr>
+      <td style="text-align: right; font-weight: bold; padding-right: 20px; color: gray;">Accepted Radius:</td>
+      <td style="text-align: left; color: gray;">1.15 $R_{Jup}$</td>
+    </tr>
+  </table>
+  <p style="font-size: 18px;">
+    <strong>Percent Error:</strong> <span style="color: #d9534f;">2.2%</span>
+  </p>
+</div>
 
 ## Further Applications
 Photometry can be used to identify variable stars as well. The notebook is coded such that changing the image folder and star coordinates allows easy switching between targets. Using image data taken of DY Pegasi allows observation of its variable flux.
